@@ -1,0 +1,61 @@
+# 项目技能与经验总结
+
+## 项目概述
+Claude Skills Marketplace - 一个展示和分享 Claude Code Skills 的原型平台。
+- 前端：纯 HTML + Tailwind CSS + 原生 JS (ES Modules)
+- 数据：skills.json（1659 条 skill 数据）
+- 图标：Font Awesome 6.4.0 CDN
+- 翻译：Kimi K2.5 API（月之暗面）
+
+## 关键文件
+- `prototype/index.html` - 主页面
+- `prototype/js/app.js` - 主应用逻辑
+- `prototype/js/ui-components.js` - UI 渲染组件（卡片、侧边栏、弹窗）
+- `prototype/js/skills-data.js` - 数据加载与 localStorage 缓存
+- `prototype/js/search-filter.js` - 搜索与过滤
+- `prototype/data/skills.json` - 所有 skill 数据（含中英文描述）
+- `scripts/parse-skills.js` - 从 README.md 解析生成 skills.json
+- `scripts/translate-skills.js` - 使用 Kimi K2.5 API 批量翻译描述
+
+## 开发服务器
+- 使用 `python -m http.server 8000` 在 `prototype/` 目录下启动
+- Windows 环境下打开浏览器：`cmd //c start http://localhost:8000`
+- 注意：`start` 命令在 Git Bash 中需要用 `cmd //c start` 包装
+- 启动服务器后需等待 1-2 秒再打开浏览器，避免 ERR_EMPTY_RESPONSE
+- 重启服务器前必须先杀掉占用端口的进程：
+  ```bash
+  netstat -ano | findstr ":8000" | findstr "LISTENING"
+  taskkill //PID <pid> //F
+  ```
+
+## Windows Git Bash 注意事项
+- `taskkill` 的参数需要用 `//` 而不是 `/`（Git Bash 会将 `/` 解释为路径）
+- `node -e` 中不能使用 `!` 字符（会被 bash 转义），复杂脚本应写入文件执行
+- 路径中包含中文时，大部分命令可以正常工作
+
+## Font Awesome 图标
+- GitHub 图标属于 **brands** 类别，必须使用 `fab fa-github`，不能用 `fas fa-github`
+- Apple 图标同理：`fab fa-apple`
+- 常规图标使用 `fas`（solid）前缀
+
+## 数据缓存机制
+- `skills-data.js` 使用 localStorage 缓存 skills.json 数据
+- 通过 `CACHE_VERSION` 控制缓存失效
+- 数据更新后必须升级 `CACHE_VERSION`，否则浏览器会使用旧缓存
+- 清除缓存页面：`prototype/clear-cache.html`
+
+## Kimi K2.5 API 翻译
+- API 端点：`https://api.moonshot.cn/v1/chat/completions`
+- API Key 在 `.env` 文件中：`Kimi_API_Key=...`
+- 兼容 OpenAI API 格式
+- 关闭思考模式节省 token：`thinking: { type: 'disabled' }`
+- 非思考模式下 temperature 固定为 0.6，不可自定义
+- 批量翻译策略：每 50 条为一批，失败时自动拆分为 10 条小批重试
+- JSON 输出偶尔会解析失败（约 3% 概率），需要重试机制
+- 翻译 1659 条描述总成本约 ¥1-2 元
+
+## 中文显示问题
+- 使用 Latin 字体（如 DM Sans）时，需在 font-family 中添加中文字体回退：
+  `'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB'`
+- 侧边栏长文本需添加 `truncate` 类防止溢出
+- JSON 文件确保使用 UTF-8 编码（无 BOM）

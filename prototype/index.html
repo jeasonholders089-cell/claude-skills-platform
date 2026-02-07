@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Skills Marketplace - 发现和分享 Claude Code Skills</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'DM Sans', 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-8">
+                    <a href="index.html" class="flex items-center space-x-2">
+                        <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                        <span class="text-xl font-bold text-gray-900">Claude Skills</span>
+                    </a>
+                    <div class="hidden md:flex space-x-6">
+                        <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">浏览</a>
+                        <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">分类</a>
+                        <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">文档</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative hidden md:block">
+                        <input type="text" placeholder="搜索 Skills..." class="w-64 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
+                    </div>
+                    <a href="upload-skill.html" class="hidden md:inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 transition-colors cursor-pointer">
+                        <i class="fas fa-upload mr-2"></i>上传 Skill
+                    </a>
+                    <a href="profile.html" class="flex items-center space-x-2 cursor-pointer">
+                        <img src="https://ui-avatars.com/api/?name=User&background=667eea&color=fff" alt="User" class="w-8 h-8 rounded-full">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-5xl font-bold mb-6">发现和分享 Claude Code Skills</h1>
+            <p class="text-xl mb-8 text-indigo-100">一站式浏览所有可用的 Claude Skills，提升你的开发效率</p>
+            <div class="max-w-2xl mx-auto relative">
+                <input type="text" id="search-input" placeholder="搜索你需要的 Skill..." class="hero-search w-full px-6 py-4 rounded-lg text-gray-900 focus:outline-none focus:ring-4 focus:ring-indigo-300">
+                <button class="absolute right-2 top-2 px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors cursor-pointer">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div class="mt-8 flex justify-center space-x-8 text-sm">
+                <div>
+                    <div class="text-3xl font-bold">500+</div>
+                    <div class="text-indigo-200">Skills</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold">20K+</div>
+                    <div class="text-indigo-200">下载量</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold">5K+</div>
+                    <div class="text-indigo-200">用户</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section - Hidden, replaced by sidebar -->
+    <section class="hidden py-12 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8">浏览分类</h2>
+            <p class="text-gray-600">分类已移至侧边栏</p>
+        </div>
+    </section>
+
+    <!-- Main Content with Sidebar -->
+    <div class="flex">
+        <!-- Sidebar -->
+        <aside id="category-sidebar" class="w-64 bg-white border-r border-gray-200 min-h-screen sticky top-16 overflow-y-auto">
+            <div class="p-4">
+                <h3 class="font-bold text-lg mb-4 text-gray-900">分类</h3>
+                <div id="sidebar-categories" class="space-y-2">
+                    <!-- Categories will be rendered here -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1">
+            <!-- Featured Skills -->
+            <section id="skills-section" class="py-12 bg-gray-50">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-3xl font-bold text-gray-900">所有 Skills</h2>
+                    </div>
+
+                    <!-- Loading Spinner -->
+                    <div id="loading-spinner" class="text-center py-12">
+                        <i class="fas fa-spinner fa-spin text-indigo-600 text-5xl mb-4"></i>
+                        <p class="text-gray-600">加载中...</p>
+                    </div>
+
+                    <!-- Skills Container -->
+                    <div id="skills-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Skills will be rendered here dynamically -->
+                    </div>
+
+                    <!-- Pagination Controls -->
+                    <div id="pagination-controls" class="mt-8"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="font-bold text-gray-900 mb-4">Claude Skills</h3>
+                    <p class="text-gray-600 text-sm">发现和分享 Claude Code Skills 的最佳平台</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-900 mb-4">产品</h4>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li><a href="#" class="hover:text-indigo-600 cursor-pointer">浏览 Skills</a></li>
+                        <li><a href="#" class="hover:text-indigo-600 cursor-pointer">分类</a></li>
+                        <li><a href="#" class="hover:text-indigo-600 cursor-pointer">热门推荐</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-900 mb-4">开发者</h4>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li><a href="#" class="hover:text-indigo-600 cursor-pointer">上传 Skill</a></li>
+                        <li><a href="#" class="hover:text-indigo-600 cursor-pointer">文档</a></li>
+                        <li><a href="#" class="hover:text-indigo-600 cursor-pointer">API</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-900 mb-4">关于</h4>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li><a href="#" class="hover:text-indigo-600 cursor-pointer">关于我们</a></li>
+                        <li><a href="#" class="hover:text-indigo-600 cursor-pointer">联系我们</a></li>
+                        <li><a href="#" class="hover:text-indigo-600 cursor-pointer">隐私政策</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-200 text-center text-sm text-gray-500">
+                <p>&copy; 2026 Claude Skills Marketplace. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
