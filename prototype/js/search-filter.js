@@ -13,7 +13,12 @@ export function filterSkills(skills, filters = {}) {
 
   // Filter by category (using original category)
   if (filters.category && filters.category !== 'all') {
-    filtered = filtered.filter(skill => skill.category === filters.category);
+    // Special handling for "Latest" category - show all skills marked as new
+    if (filters.category === 'Latest') {
+      filtered = filtered.filter(skill => skill.isNew === true);
+    } else {
+      filtered = filtered.filter(skill => skill.category === filters.category);
+    }
   }
 
   // Filter by search query (search in both EN and CN descriptions)
