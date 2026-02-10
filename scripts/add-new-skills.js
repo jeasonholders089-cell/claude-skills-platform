@@ -200,6 +200,13 @@ function main() {
   console.log(`\n✅ Successfully added ${newSkills.length} new skills`);
   console.log(`📊 Total skills: ${skillsData.totalSkills}`);
   console.log(`📁 Total categories: ${skillsData.categories.length}`);
+
+  // 提示需要翻译
+  if (newSkills.length > 0) {
+    console.log(`\n⚠️  提示: 新添加的skills需要翻译中文描述`);
+    console.log(`运行以下命令进行翻译:`);
+    console.log(`  node scripts/update-translations.js`);
+  }
 }
 
 main();

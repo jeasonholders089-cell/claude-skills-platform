@@ -232,7 +232,7 @@ function renderSkills() {
   );
 
   // Render skill cards
-  container.innerHTML = paginated.skills.map(skill => renderSkillCard(skill)).join('');
+  container.innerHTML = paginated.skills.map(skill => renderSkillCard(skill, appState.categories)).join('');
 
   // Add click listeners to skill cards
   const skillCards = container.querySelectorAll('.skill-card');
@@ -241,7 +241,7 @@ function renderSkills() {
       const skillId = card.getAttribute('data-skill-id');
       const skill = appState.allSkills.find(s => s.id === skillId);
       if (skill) {
-        showSkillModal(skill);
+        showSkillModal(skill, appState.categories);
       }
     });
   });

@@ -98,11 +98,21 @@ function truncateText(text, maxLength) {
 /**
  * Render a skill card
  * @param {Object} skill - Skill object
+ * @param {Array} categories - Array of category objects (optional)
  * @returns {string} HTML string for skill card
  */
-export function renderSkillCard(skill) {
+export function renderSkillCard(skill, categories = []) {
   const style = getCategoryStyle(skill.category);
   const description = truncateText(skill.descriptionCn || skill.description, 100);
+
+  // Find Chinese category name
+  let categoryDisplay = skill.category;
+  if (categories.length > 0) {
+    const category = categories.find(cat => cat.name === skill.category);
+    if (category && category.nameCn) {
+      categoryDisplay = category.nameCn;
+    }
+  }
 
   return `
     <div class="bg-white rounded-lg shadow-md p-6 card-hover cursor-pointer skill-card" data-skill-id="${skill.id}">
@@ -116,7 +126,7 @@ export function renderSkillCard(skill) {
             <p class="text-sm text-gray-500">by @${skill.author}</p>
           </div>
         </div>
-        <span class="px-2 py-1 bg-indigo-100 text-indigo-700 text-xs rounded-full">${skill.category}</span>
+        <span class="px-2 py-1 bg-indigo-100 text-indigo-700 text-xs rounded-full">${categoryDisplay}</span>
       </div>
       <p class="text-gray-600 text-sm mb-4">${description}</p>
       <div class="flex items-center justify-between text-sm">
@@ -168,12 +178,22 @@ export function renderPagination(currentPage, totalPages) {
 /**
  * Show skill detail modal
  * @param {Object} skill - Skill object
+ * @param {Array} categories - Array of category objects (optional)
  */
-export function showSkillModal(skill) {
+export function showSkillModal(skill, categories = []) {
   const style = getCategoryStyle(skill.category);
 
   // Use Chinese description if available, otherwise use English
   const description = skill.descriptionCn || skill.description;
+
+  // Find Chinese category name
+  let categoryDisplay = skill.category;
+  if (categories.length > 0) {
+    const category = categories.find(cat => cat.name === skill.category);
+    if (category && category.nameCn) {
+      categoryDisplay = category.nameCn;
+    }
+  }
 
   const modalHTML = `
     <div id="skill-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -197,7 +217,7 @@ export function showSkillModal(skill) {
 
           <!-- Category Badge -->
           <div class="mb-4">
-            <span class="px-3 py-1 bg-indigo-100 text-indigo-700 text-sm rounded-full">${skill.category}</span>
+            <span class="px-3 py-1 bg-indigo-100 text-indigo-700 text-sm rounded-full">${categoryDisplay}</span>
           </div>
 
           <!-- Description -->
